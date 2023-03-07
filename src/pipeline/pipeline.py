@@ -1,4 +1,12 @@
+import os
+import torch
+from tqdm import tqdm
+from from_root import from_root
+from torch.utils.data import DataLoader
+
 from src.components.data_ingestion import DataIngestion
+from src.components.data_preprocessing import DataPreprocessing
+from src.components.model import NeuralNet
 
 class Pipeline:
     def __init__(self):
@@ -22,9 +30,14 @@ class Pipeline:
         loaders = dp.run_step()
         return loaders   
 
+    @staticmethod
+    def initiate_model_architecture():
+        return NeuralNet()
+
     def run_pipeline(self):
         self.initiate_data_ingestion()
         loaders = self.initiate_data_preprocessing()
+        net = self.initiate_model_architecture()
         return {"Response": "Pipeline Run Complete"}
 
 
