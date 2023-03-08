@@ -7,6 +7,7 @@ from torch.utils.data import DataLoader
 from src.components.data_ingestion import DataIngestion
 from src.components.data_preprocessing import DataPreprocessing
 from src.components.model import NeuralNet
+from src.components.trainer import Trainer
 
 class Pipeline:
     def __init__(self):
@@ -33,11 +34,18 @@ class Pipeline:
     @staticmethod
     def initiate_model_architecture():
         return NeuralNet()
+    
+    def initiate_model_training(self, loaders, net):
+        trainer = Trainer(loaders, self.device, net)
+        trainer.train_model()
+        trainer.evaluate(validate=True)
+        trainer.save_model_in_path()
 
     def run_pipeline(self):
         self.initiate_data_ingestion()
         loaders = self.initiate_data_preprocessing()
         net = self.initiate_model_architecture()
+        self.initiate_model_training(loaders, net)
         return {"Response": "Pipeline Run Complete"}
 
 
