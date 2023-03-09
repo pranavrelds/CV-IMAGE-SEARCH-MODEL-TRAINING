@@ -10,6 +10,7 @@ from src.components.model import NeuralNet
 from src.components.trainer import Trainer
 from src.components.embeddings import EmbeddingGenerator, ImageFolder
 from src.components.nearest_neighbours import Annoy
+from src.data_access.s3_operations import S3Connector
 
 class Pipeline:
     def __init__(self):
@@ -57,6 +58,12 @@ class Pipeline:
         ann = Annoy()
         ann.run_step()
 
+    @staticmethod
+    def push_artifacts():
+        connection = S3Connector()
+        response = connection.zip_files()
+        return response
+
     def run_pipeline(self):
         self.initiate_data_ingestion()
         loaders = self.initiate_data_preprocessing()
@@ -64,6 +71,7 @@ class Pipeline:
         self.initiate_model_training(loaders, net)
         self.generate_embeddings(loaders, net)
         self.create_annoy()
+        self.push_artifacts()
         return {"Response": "Pipeline Run Complete"}
         
 
