@@ -75,3 +75,10 @@ class EmbeddingsConfig:
         return self.__dict__
 
 ImageRecord = namedtuple("ImageRecord", ["img", "label", "s3_link"])
+
+class AnnoyConfig:
+    def __init__(self):
+        self.EMBEDDING_STORE_PATH = os.path.join(from_root(), "data", "embeddings", "embeddings.ann")
+
+    def get_annoy_config(self):
+        return self.__dict__

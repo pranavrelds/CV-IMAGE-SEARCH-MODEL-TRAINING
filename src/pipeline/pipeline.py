@@ -50,6 +50,11 @@ class Pipeline:
         for batch, values in tqdm(enumerate(dataloader)):
             img, target, link = values
             print(embeds.run_step(batch, img, target, link))
+    
+    @staticmethod
+    def create_annoy():
+        ann = Annoy()
+        ann.run_step()
 
     def run_pipeline(self):
         self.initiate_data_ingestion()
@@ -57,6 +62,7 @@ class Pipeline:
         net = self.initiate_model_architecture()
         self.initiate_model_training(loaders, net)
         self.generate_embeddings(loaders, net)
+        self.create_annoy()
         return {"Response": "Pipeline Run Complete"}
         
 
