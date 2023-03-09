@@ -43,3 +43,35 @@ class TrainerConfig:
 
     def get_trainer_config(self):
         return self.__dict__
+
+class DatabaseConfig:
+    def __init__(self):
+        self.USERNAME: str = os.environ["DATABASE_USERNAME"]
+        self.PASSWORD: str = os.environ["DATABASE_PASSWORD"]
+        self.CLUSTER_NAME: str = os.environ["ATLAS_CLUSTER_PASSWORD"]
+        self.URL: str = "mongodb+srv://<username>:<password>@<cluster_name>}.k6wb050.mongodb.net/?retryWrites=true&w=majority"
+        self.DBNAME: str = "ImageSearch"
+        self.COLLECTION: str = "Embeddings"
+
+    def get_database_config(self):
+        return self.__dict__
+
+class ImageFolderConfig:
+    def __init__(self):
+        self.ROOT_DIR = os.path.join(from_root(), "data", "raw", "images")
+        self.IMAGE_SIZE = 256
+        self.LABEL_MAP = {}
+        self.BUCKET: str = "image-database-system-01"
+        self.S3_LINK = "https://{0}.s3.ap-south-1.amazonaws.com/images/{1}/{2}"
+
+    def get_image_folder_config(self):
+        return self.__dict__
+
+class EmbeddingsConfig:
+    def __init__(self):
+        self.MODEL_STORE_PATH = os.path.join(from_root(), "model", "finetuned", "model.pth")
+
+    def get_embeddings_config(self):
+        return self.__dict__
+
+ImageRecord = namedtuple("ImageRecord", ["img", "label", "s3_link"])
