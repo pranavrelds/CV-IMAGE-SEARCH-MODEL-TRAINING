@@ -9,6 +9,7 @@ from src.components.data_preprocessing import DataPreprocessing
 from src.components.model import NeuralNet
 from src.components.trainer import Trainer
 from src.components.embeddings import EmbeddingGenerator, ImageFolder
+from src.components.nearest_neighbours import Annoy
 
 class Pipeline:
     def __init__(self):
